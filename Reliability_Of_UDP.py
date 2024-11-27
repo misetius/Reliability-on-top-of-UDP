@@ -1,7 +1,9 @@
 import socket
+import random
+
 
 class Virtuaalisoketti:
-    def __init__(self, portti, ip):
+    def __init__(self, portti, ip, todennakoisyys = 0.5):
         self.soketti = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.soketti.bind((ip, portti))
 
