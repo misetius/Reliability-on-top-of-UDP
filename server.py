@@ -15,14 +15,14 @@ class Virtuaalisoketti:
             r3 = random.randint(0, 100)
 
             if r1 < 50 and r2<50:
-                data = data[0:-1]
+                
                 dekoodattu_data = data.decode('utf-8')
                 if r3 < 50:
                     dekoodattu_data = bittivirheenlisaaminen(dekoodattu_data)
                 print(dekoodattu_data)
 
             elif r1<50 and r2 > 50:
-                data = data[0:-1]
+                
                 dekoodattu_data = data.decode('utf-8')
                 if r3 < 50:
                     dekoodattu_data = bittivirheenlisaaminen(dekoodattu_data)
@@ -40,8 +40,8 @@ def bittivirheenlisaaminen(viesti):
     for merkki in viesti:
         binaarilista.append(bin(ord(merkki))[2:].zfill(8))
 
-    
-
+    binaarilista = ''.join(binaarilista)
+    binaarilista = list(binaarilista)
     r4 = random.randint(0, len(binaarilista)-1)
     muutettavabitti = binaarilista[r4]
     if muutettavabitti == '1':
@@ -50,6 +50,7 @@ def bittivirheenlisaaminen(viesti):
         binaarilista[r4] = '1'
     
     binaariluku = ''.join(binaarilista)
+    
 
     binaariviestiksi = ""
 
