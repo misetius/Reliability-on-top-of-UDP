@@ -18,8 +18,8 @@ class Virtuaalisoketti:
             pariteetti = dekoodattu_data[-1]
             sisalto = dekoodattu_data[:-1]
 
-            
-            if r3 < 50:
+            #lisätään bittivirhe jos r3 muuttujan tulos alle tai yhtä kuin 50
+            if r3 <= 50:
                 mahdollisestivirheellinenviesti = bittivirheenlisaaminen(sisalto)
                 print(mahdollisestivirheellinenviesti)
                 
@@ -35,9 +35,7 @@ class Virtuaalisoketti:
                 palautus = "ACK"
                 self.soketti.sendto(palautus.encode(), addr)
             
-            elif pariteetti != pariteetintarkistus:
-                palautus = "NACK"
-                self.soketti.sendto(palautus.encode(), addr)
+
 
 
 
@@ -70,6 +68,7 @@ def bittivirheenlisaaminen(viesti):
         num = int(binc, 2)
         binaariviestiksi += chr(num)
     return binaariviestiksi
+
 
 def laskepariteetti(viesti):
     binaarilista = []
