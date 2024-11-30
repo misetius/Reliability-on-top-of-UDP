@@ -11,31 +11,45 @@ class Virtuaalisoketti:
     def receivedata(self):
         while True:
             data, addr = self.soketti.recvfrom(1024)
+            r1 = random.randint(0, 100)
+            r2 = random.randint(0, 100)
             r3 = random.randint(0, 100)
+            
     
             dekoodattu_data = data.decode('utf-8')
             
             pariteetti = dekoodattu_data[-1]
             sisalto = dekoodattu_data[:-1]
+            pudotettiinko_paketti = False
+            mahdollisestivirheellinenviesti = sisalto
 
+            if r1 <= 50 and r2 <= 50:
+
+                if r3 < 50:
+                    mahdollisestivirheellinenviesti = bittivirheenlisaaminen(sisalto)
+                    print(mahdollisestivirheellinenviesti)
             
-            if r3 < 50:
-                mahdollisestivirheellinenviesti = bittivirheenlisaaminen(sisalto)
+            if r1 <= 50 and r2 >= 50:
+
+                if r3 < 50:
+                    mahdollisestivirheellinenviesti = bittivirheenlisaaminen(sisalto)
+                time.sleep(2)
                 print(mahdollisestivirheellinenviesti)
                 
             else:
-                print(sisalto)
-                mahdollisestivirheellinenviesti = sisalto
+                print("paketti pudotettiin")
+                pudotettiinko_paketti = True
+                
 
             
 
             pariteetintarkistus = laskepariteetti(mahdollisestivirheellinenviesti)
 
-            if pariteetti == pariteetintarkistus:
+            if pariteetti == pariteetintarkistus and pudotettiinko_paketti == False:
                 palautus = "ACK"
                 self.soketti.sendto(palautus.encode(), addr)
             
-            elif pariteetti != pariteetintarkistus:
+            elif pariteetti != pariteetintarkistus and pudotettiinko_paketti == False:
                 palautus = "NACK"
                 self.soketti.sendto(palautus.encode(), addr)
 

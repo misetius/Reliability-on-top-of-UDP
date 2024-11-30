@@ -30,16 +30,23 @@ while True:
     udpsoketti.sendto(viesti.encode(),ADDR) 
     
     while True:
-        recv_data,ADDR = udpsoketti.recvfrom(1024)
+            try:
+                udpsoketti.settimeout(3)
+                recv_data,ADDR = udpsoketti.recvfrom(1024)
 
-        dekookattu_data = recv_data.decode('utf-8')
+                dekookattu_data = recv_data.decode('utf-8')
 
-        if dekookattu_data == "NACK":
-            print("Serveri pyysi uutta viestiä")
-            udpsoketti.sendto(viesti.encode(),ADDR)
-        elif dekookattu_data == "ACK":
-            print("Serveri vastaanotti viestin onnistuneesti")
-            break
+       
+                if dekookattu_data == "ACK":
+                    print("Palvelin vastaanotti viestin onnistuneesti")
+                    break
+                elif dekookattu_data == "NACK":
+                    print("Palvelimen vastaanottamassa paketissa oli virhe")
+                    udpsoketti.sendto(viesti.encode(),ADDR)
+
+            except timeout:
+                print("Palvelin ei vastannut ajoissa")
+                udpsoketti.sendto(viesti.encode(),ADDR)
 
     
         
