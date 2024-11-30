@@ -31,8 +31,8 @@ class Virtuaalisoketti:
 
             pariteetintarkistus = laskepariteetti(mahdollisestivirheellinenviesti)
 
-            if pariteetti == pariteetintarkistus:
-                palautus = "ACK"
+            if pariteetti != pariteetintarkistus:
+                palautus = "NACK"
                 self.soketti.sendto(palautus.encode(), addr)
             
 

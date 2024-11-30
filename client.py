@@ -38,13 +38,14 @@ while True:
                 dekookattu_data = recv_data.decode('utf-8')
 
        
-                if dekookattu_data == "ACK":
-                    print("Palvelin vastaanotti viestin onnistuneesti")
-                    break
+                if dekookattu_data == "NACK":
+                    print("Palvelin ei vastaanottanut viestiä onnistuneesti")
+                    udpsoketti.sendto(viesti.encode(),ADDR)
 
             except timeout:
-                print("Palvelin ei vastannut ajoissa")
-                udpsoketti.sendto(viesti.encode(),ADDR)
+                print("Palvelin vastaanotti viestin onnistuneesti")
+                break
+                
     
         
     
